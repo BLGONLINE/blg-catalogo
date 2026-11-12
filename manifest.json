@@ -1,7 +1,7 @@
 {
   "name": "BLG Bombas y Piletas",
   "short_name": "BLG Bombas",
-  "start_url": "/catalogo",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#020617",

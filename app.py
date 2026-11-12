@@ -144,7 +144,13 @@ def producto_detalle(pid):
     if not p:
         return "Producto no encontrado", 404
     return render_template('producto.html', producto=p, logo_url=LOGO_URL)
+@app.route('/manifest.json')
+def manifest():
+    return app.send_static_file('manifest.json')
 
+@app.route('/sw.js')
+def sw():
+    return app.send_static_file('sw.js')
 if __name__ == '__main__':
     import os
     port = int(os.environ.get("PORT", 5000))

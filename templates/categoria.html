@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLG - {{ nombre_cat }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Outfit', sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding-bottom: 110px; }
+        header { 
+            background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e3a8a 100%);
+            padding: 20px 35px; display: flex; justify-content: space-between; align-items: center; 
+            border-bottom: 3px solid #3b82f6; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .logo-img { max-height: 50px; width: auto; }
+        .back-btn { 
+            background: rgba(59, 130, 246, 0.15); color: #93c5fd; padding: 10px 20px; border-radius: 8px; 
+            text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+            border: 1px solid rgba(59, 130, 246, 0.3); transition: all 0.2s;
+        }
+        .back-btn:hover { background: #3b82f6; color: white; border-color: #3b82f6; }
+        
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 25px; }
+        .cat-heading { font-size: 26px; font-weight: 700; color: #f8fafc; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 15px; }
+        .cat-heading::after { content: ""; flex-grow: 1; height: 2px; background: linear-gradient(90deg, #3b82f6, transparent); }
+
+        /* Cuadrícula Moderna de Productos */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
+        .card { 
+            background: linear-gradient(145deg, #1e293b, #0f172a); 
+            border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+            border: 1px solid rgba(59, 130, 246, 0.2); display: flex; flex-direction: column; justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card:hover { transform: translateY(-5px); border-color: #60a5fa; box-shadow: 0 20px 35px rgba(59, 130, 246, 0.3); }
+
+        .img-box { 
+            width: 100%; height: 200px; background: white; display: flex; align-items: center; justify-content: center; 
+            padding: 15px; cursor: pointer; border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        }
+        .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        
+        .card-body { padding: 20px; display: flex; flex-direction: column; gap: 10px; flex-grow: 1; justify-content: space-between; }
+        .product-sku { font-size: 11px; color: #94a3b8; font-family: monospace; background: rgba(15, 23, 42, 0.6); padding: 2px 8px; border-radius: 4px; width: fit-content; border: 1px solid rgba(255,255,255,0.05); }
+        .product-name { font-size: 15px; font-weight: 600; color: #f8fafc; margin: 0; text-decoration: none; line-height: 1.4; cursor: pointer; }
+        .product-name:hover { color: #60a5fa; }
+        
+        .card-footer-info { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+        .product-price { font-size: 18px; font-weight: 700; color: #4ade80; }
+        .product-stock { font-size: 11px; background: rgba(34, 197, 94, 0.15); color: #4ade80; padding: 4px 8px; border-radius: 6px; font-weight: 600; text-transform: uppercase; }
+
+        .btn-add { 
+            background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; border: none; padding: 12px; 
+            width: 100%; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px; text-transform: uppercase; 
+            margin-top: 15px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4); transition: all 0.2s; 
+        }
+        .btn-add:hover { background: linear-gradient(135deg, #1d4ed8, #1e40af); transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.6); }
+
+        .cart-bar { 
+            position: fixed; bottom: 0; left: 0; right: 0; background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(10px);
+            color: white; padding: 20px 35px; display: flex; justify-content: space-between; align-items: center; 
+            border-top: 2px solid #3b82f6; z-index: 100; box-shadow: 0 -10px 30px rgba(0,0,0,0.5); 
+        }
+        .cart-text { font-size: 16px; font-weight: 500; color: #cbd5e1; }
+        .cart-text span { color: #f8fafc; font-weight: 700; }
+        .btn-wsp { 
+            background: #25D366; color: white; border: none; padding: 14px 28px; border-radius: 10px; 
+            font-weight: 700; cursor: pointer; text-transform: uppercase; font-size: 14px; letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); transition: all 0.2s;
+        }
+        .btn-wsp:hover { background: #20ba5a; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6); }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="{{ logo_url }}" alt="BLG Bombas y Piletas" class="logo-img">
+        <a href="/" class="back-btn">&larr; Volver al Índice</a>
+    </header>
+    
+    <div class="container">
+        <h2 class="cat-heading">{{ nombre_cat }}</h2>
+        
+        <div class="grid">
+            {% for p in productos %}
+            <div class="card">
+                <div>
+                    <div class="img-box" onclick="window.location.href='/producto/{{ p[0] }}'">
+                        {% if p[5] %}<img src="{{ p[5] }}" alt="{{ p[2] }}">{% else %}<span style="color:#94a3b8; font-size:12px;">Sin foto</span>{% endif %}
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <span class="product-sku">SKU: {{ p[1] }}</span>
+                            <h3 class="product-name" onclick="window.location.href='/producto/{{ p[0] }}'">{{ p[2] }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 0 20px 20px 20px;">
+                    <div class="card-footer-info">
+                        <span class="product-price">{% if p[3] != 'Consultar' %}${{ p[3] }}{% else %}Consultar{% endif %}</span>
+                        <span class="product-stock">Stock: {{ p[4] }}</span>
+                    </div>
+                    <button class="btn-add" onclick="agregar('{{ p[1] }}', '{{ p[2] }}', '{{ p[3] }}')">Agregar</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="cart-bar">
+        <div class="cart-text">🛒 Ítems en Pedido: <span id="count">0</span> &nbsp;|&nbsp; Total Estimado: $<span id="total">0.00</span></div>
+        <button class="btn-wsp" onclick="enviarWsp()">Enviar Pedido por WhatsApp 📱</button>
+    </div>
+
+    <script>
+        let cart = [];
+        function agregar(sku, nom, pre) {
+            let precioNum = parseFloat(pre) || 0;
+            cart.push({ sku, nom, pre: precioNum });
+            document.getElementById('count').innerText = cart.length;
+            let t = cart.reduce((s, i) => s + i.pre, 0);
+            document.getElementById('total').innerText = t.toFixed(2);
+        }
+        function enviarWsp() {
+            if (cart.length === 0) { alert("El pedido está vacío."); return; }
+            let msg = "Hola! Vengo del Catálogo Digital de BLG Bombas y Piletas y quiero encargar:%0A";
+            cart.forEach((i, idx) => { 
+                msg += `%0A${idx + 1}. [SKU: ${i.sku}] ${i.nom} - $${i.pre.toFixed(2)}`; 
+            });
+            let t = cart.reduce((s, i) => s + i.pre, 0);
+            msg += `%0A%0ATotal Estimado: $${t.toFixed(2)}`;
+            window.open(`https://wa.me/5493410000000?text=${msg}`, '_blank');
+        }
+    </script>
+</body>
+</html>
